@@ -10,17 +10,26 @@
     <div id="content">
         {% block content %}
         <div class="teamLeft">
-            <img class="banned" src="static/images/{{ team1.ban }}">
+            <img class="banned" src="static/images/{{ team1.ban }}"
+                 {% if team1.ban == 'bans/None.png' %}
+                    style="opacity: 0;"
+                 {% endif %}
+            >
             <div class="teamInfoLeft">
                 <div class="filler"></div>
                 <img class="bwaaLeft" src="static/images/{{ team1.image }}">
+
                 <h1 class="teamNameLeft">{{ team1.name }}</h1>
                 <h1 class="scoreLeft">[{{ team1.score }}]</h1>
             </div>
         </div>
 
         <div class="teamRight">
-            <img class="bannedRight" src="static/images/{{ team2.ban }}" >
+            <img class="bannedRight" src="static/images/{{ team2.ban }}"
+                {% if team2.ban == 'bans/None.png' %}
+                    style="opacity: 0;"
+                {% endif %}
+            >
             <div class="teamInfoRight">
                 <h1 class="scoreLeft">[{{ team2.score }}]</h1>
                 <h1 class="teamNameLeft">{{ team2.name }}</h1>

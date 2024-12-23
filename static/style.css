@@ -54,9 +54,8 @@ img {
   float:left;
   display: block;
   max-width: 100%;
-  max-height: 100%;
   width: auto;
-  height: auto;
+  height: inherit;
 }
 
 img.banned{
@@ -64,7 +63,7 @@ img.banned{
 }
 
 img.bwaaLeft{
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 img.bannedRight{
