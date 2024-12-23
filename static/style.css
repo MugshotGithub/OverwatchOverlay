@@ -1,0 +1,80 @@
+body {
+  background-color: rgba(0, 0, 0, 255);
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+
+div.teamLeft {
+  float: left;
+  width: 540px;
+  height: 60px;
+  margin-top: 0.3%;
+  margin-left: 2.25%;
+}
+
+div.teamRight{
+  float: right;
+  width: 540px;
+  height: 60px;
+  margin-top: 0.3%;
+  margin-right: 2.25%;
+}
+
+div.teamInfoLeft {
+  margin-left: 10px;
+  float: right;
+  max-width: 100%;
+  width: 465px;
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  min-width: 0;
+}
+
+div.teamInfoRight {
+  margin-right: 10px;
+  float: left;
+  max-width: 100%;
+  width: 465px;
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  min-width: 0;
+}
+
+
+.filler{
+    flex-grow: 1;
+}
+
+img {
+  float:left;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+img.banned{
+  filter: grayscale(100%);
+}
+
+img.bwaaLeft{
+    transform: rotateY(180deg);
+}
+
+img.bannedRight{
+  filter: grayscale(100%);
+  float: right;
+}
+
+h1 {
+  margin-left: 2%;
+  margin-right: 2%;
+  font-size: 35px;
+  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+}

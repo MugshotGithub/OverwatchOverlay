@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="static/style.css" />
+    <title>Overwatch Overlay</title>
+    <meta http-equiv="refresh" content="1" >
+    {% endblock %}
+</head>
+<body>
+    <div id="content">
+        {% block content %}
+        <div class="teamLeft">
+            <img class="banned" src="static/images/{{ team1.ban }}">
+            <div class="teamInfoLeft">
+                <div class="filler"></div>
+                <img class="bwaaLeft" src="static/images/{{ team1.image }}">
+                <h1 class="teamNameLeft">{{ team1.name }}</h1>
+                <h1 class="scoreLeft">[{{ team1.score }}]</h1>
+            </div>
+        </div>
+
+        <div class="teamRight">
+            <img class="bannedRight" src="static/images/{{ team2.ban }}" >
+            <div class="teamInfoRight">
+                <h1 class="scoreLeft">[{{ team2.score }}]</h1>
+                <h1 class="teamNameLeft">{{ team2.name }}</h1>
+                <img class="bwaaRight" src="static/images/{{ team2.image }}">
+                <div class="filler"></div>
+            </div>
+        </div>
+
+        {% endblock %}
+    </div>
+</body>
+</html>
