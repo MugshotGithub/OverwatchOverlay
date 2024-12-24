@@ -4,11 +4,12 @@ import customtkinter as ctk
 import requests
 
 class TeamInput(ctk.CTkFrame):
-    def __init__(self, master, labelText="Team 1", name_callback=None, hero_callback=None, bwaa_callback=None, **kwargs):
+    def __init__(self, master, labelText="Team 1", name_callback=None, hero_callback=None, bwaa_callback=None, score_callback=None, **kwargs):
         super().__init__(master, **kwargs)
         self.name_callback = name_callback
         self.hero_callback = hero_callback
         self.bwaa_callback = bwaa_callback
+        self.score_callback = score_callback
 
         self.label = ctk.CTkLabel(self, text=labelText, justify="center")
         self.label.pack(pady=(10, 5))
@@ -61,6 +62,8 @@ class TeamInput(ctk.CTkFrame):
         new_value = current_value + amount
         self.entry.delete(0, ctk.END)
         self.entry.insert(0, str(new_value))
+        if self.score_callback:
+            self.score_callback(new_value)
 
     def increment(self):
         self.update_value(1)
@@ -105,7 +108,7 @@ class App(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.team1Input = TeamInput(master=self, labelText="Team 1", name_callback=self.team1_name_updated, hero_callback=self.team1_hero_updated, bwaa_callback=self.team1_bwaa_updated)
+        self.team1Input = TeamInput(master=self, labelText="Team 1", score_callback=self.team1_score_updated, name_callback=self.team1_name_updated, hero_callback=self.team1_hero_updated, bwaa_callback=self.team1_bwaa_updated)
         self.team1Input.grid(row=0, column=0, padx=10, pady=10)
 
         self.swap_button_frame = ctk.CTkFrame(self)
@@ -115,8 +118,22 @@ class App(ctk.CTk):
         self.refresh_button = ctk.CTkButton(self.swap_button_frame, text="Refresh Images", command=self.refresh_images)
         self.refresh_button.pack()
 
-        self.team2Input = TeamInput(master=self, labelText="Team 2", name_callback=self.team2_name_updated, hero_callback=self.team2_hero_updated, bwaa_callback=self.team2_bwaa_updated)
+        self.team2Input = TeamInput(master=self, labelText="Team 2", score_callback=self.team2_score_updated, name_callback=self.team2_name_updated, hero_callback=self.team2_hero_updated, bwaa_callback=self.team2_bwaa_updated)
         self.team2Input.grid(row=0, column=2, padx=10, pady=10)
+
+    def team1_score_updated(self, score):
+        data = {
+            "teamNumber": 1,
+            "teamScore": score
+        }
+        requests.post(self.url + "/api/updateScore", data)
+
+    def team2_score_updated(self, score):
+        data = {
+            "teamNumber": 2,
+            "teamScore": score
+        }
+        requests.post(self.url + "/api/updateScore", data)
 
     def team1_name_updated(self, name):
         data = {
