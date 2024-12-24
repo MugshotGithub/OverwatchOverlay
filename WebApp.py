@@ -51,7 +51,6 @@ def updateBwaa():
         team = team2
 
     team["image"] = f"teams/{request.form.get("teamBwaa")}.png"
-    print(team["image"])
 
     return make_response("OK", 200)
 @app.route('/api/updateBanned', methods=['POST'])
