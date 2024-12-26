@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import customtkinter as ctk
 import requests
@@ -84,6 +85,12 @@ class TeamInput(ctk.CTkFrame):
             self.bwaa_callback(choice)
 
     def update_imageOptions(self):
+        main_dir = "bwaas/"
+        child_dir = "static/images/teams/"
+
+        # Synchronize files from the main directory to the child directory
+        sync_main_to_child(main_dir, child_dir)
+
         bwaa_path = 'static/images/teams'
         bwaas = [os.path.splitext(f)[0] for f in os.listdir(bwaa_path) if os.path.isfile(os.path.join(bwaa_path, f))]
         bwaas.insert(0, bwaas.pop(bwaas.index("None")))
@@ -211,6 +218,45 @@ class App(ctk.CTk):
         self.team2Input.team_bwaa_dropdown.set(team1_bwaa)
 
         requests.get(self.url+"/api/swapTeams")
+
+def sync_main_to_child(main_dir, child_dir):
+    """
+    Synchronize files from the main directory to the child directory.
+    """
+    # Ensure both directories exist
+    os.makedirs(main_dir, exist_ok=True)
+    os.makedirs(child_dir, exist_ok=True)
+
+    # Function to copy files from source to destination
+    def copy_files(src, dest):
+        for filename in os.listdir(src):
+            src_path = os.path.join(src, filename)
+            dest_path = os.path.join(dest, filename)
+
+            # Only copy files (skip directories)
+            if os.path.isfile(src_path):
+                if not os.path.exists(dest_path) or not file_contents_match(src_path, dest_path):
+                    shutil.copy2(src_path, dest_path)
+                    print(f"Copied {src_path} to {dest_path}")
+
+        # Remove files in the child directory that are not in the main directory
+        for filename in os.listdir(dest):
+            if filename == "None.png":
+                continue
+            dest_path = os.path.join(dest, filename)
+            src_path = os.path.join(src, filename)
+            if not os.path.exists(src_path):
+                os.remove(dest_path)
+                print(f"Removed {dest_path}")
+
+    # Check if two files have the same contents
+    def file_contents_match(file1, file2):
+        with open(file1, 'rb') as f1, open(file2, 'rb') as f2:
+            return f1.read() == f2.read()
+
+    # Synchronize files from main to child
+    copy_files(main_dir, child_dir)
+
 
 if __name__ == "__main__":
     app = App()
