@@ -3,10 +3,34 @@
     {% block head %}
     <link rel="stylesheet" href="static/style.css" />
     <title>Overwatch Overlay</title>
-    <meta http-equiv="refresh" content="1" >
     {% endblock %}
 </head>
 <body>
+    <script>
+        (function safeAutoReload() {
+            setInterval(() => {
+                try {
+                    // Perform a HEAD request to check the page status
+                    fetch(window.location.href, { method: 'HEAD' })
+                        .then(response => {
+                            if (response.ok) {
+                                // Reload the page if the response is successful
+                                console.log("Page is accessible. Reloading...");
+                                window.location.reload();
+                            } else {
+                                console.error("Error: Page status issue detected. Reload aborted. Status:", response.status);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error: Network or fetch issue. Reload aborted.", error);
+                        });
+                } catch (error) {
+                    console.error("Error: Unexpected issue occurred. Reload aborted.", error);
+                }
+            }, 1000);
+        })();
+    </script>
+
     <div id="content">
         {% block content %}
         <div class="teamLeft">
@@ -17,10 +41,13 @@
             >
             <div class="teamInfoLeft">
                 <div class="filler"></div>
-                <img class="bwaaLeft" src="static/images/{{ team1.image }}">
-
                 <h1 class="teamNameLeft">{{ team1.name }}</h1>
                 <h1 class="scoreLeft">[{{ team1.score }}]</h1>
+                <img class="bwaaLeft" src="static/images/{{ team1.image }}"
+                     {% if team1.image == 'teams/None.png' %}
+                        style="opacity: 0;"
+                     {% endif %}
+                >
             </div>
         </div>
 
@@ -31,9 +58,13 @@
                 {% endif %}
             >
             <div class="teamInfoRight">
+                <img class="bwaaRight" src="static/images/{{ team2.image }}"
+                     {% if team2.image == 'teams/None.png' %}
+                        style="opacity: 0;"
+                     {% endif %}
+                >
                 <h1 class="scoreLeft">[{{ team2.score }}]</h1>
                 <h1 class="teamNameLeft">{{ team2.name }}</h1>
-                <img class="bwaaRight" src="static/images/{{ team2.image }}">
                 <div class="filler"></div>
             </div>
         </div>

@@ -1,13 +1,19 @@
+@font-face {
+  font-family: ScoreboardFont;
+  src: url("Kicker-ExtraBold.otf");
+}
+
 body {
   background-color: rgba(0, 0, 0, 255);
   margin: 0;
-  font-family: 'Courier New', monospace;
+  font-family: ScoreboardFont;
+  font-weight: 100;
 }
 
 
 div.teamLeft {
   float: left;
-  width: 540px;
+  width: 596px;
   height: 60px;
   margin-top: 0.3%;
   margin-left: 2.25%;
@@ -15,7 +21,7 @@ div.teamLeft {
 
 div.teamRight{
   float: right;
-  width: 540px;
+  width: 596px;
   height: 60px;
   margin-top: 0.3%;
   margin-right: 2.25%;
@@ -62,7 +68,7 @@ img.banned{
   filter: grayscale(100%);
 }
 
-img.bwaaLeft{
+img.bwaaRight{
   transform: rotateY(180deg);
 }
 
@@ -74,6 +80,12 @@ img.bannedRight{
 h1 {
   margin-left: 2%;
   margin-right: 2%;
-  font-size: 35px;
-  text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+  font-size: 50px;
+  font-weight: bolder;
+  color: white;
+  text-shadow:
+    -2.5px -2.5px 1px black,
+    -2.5px 2.5px 1px black,
+    2.5px -2.5px 1px black,
+    2.5px 2.5px 1px black;
 }
