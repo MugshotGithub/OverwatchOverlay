@@ -1,5 +1,6 @@
 import json
 import re
+from urllib.parse import unquote
 
 import requests
 import urllib.parse
@@ -39,21 +40,31 @@ def fetch_tournament_info(tournament_name):
     except requests.RequestException as e:
         return {"error": str(e)}
 
+def extract_title(match):
+    title = match.group("href")
+    return unquote(title) if title else ""
 
 def parseBans():
     data = json.load(open("data.json"))
     html = data["parse"]["text"]["*"]
     parts = html.split("brkts-popup-comment\" style=\"font-size:85%;white-space:normal\">")
     partsFiltered = []
+
+    pattern = r'<a\s[^>]*href="(?P<href>[^"]*)"[^>]*>.*?</a>'
+
     for i, part in enumerate(parts):
         if i == 0:
             continue
         partFiltered = part.split("</div>")
-        partFiltered = re.sub(r"</?(?!br\b)[^>]+>", "", partFiltered[0])
-        partFiltered = partFiltered.replace("  "," ").replace("<br /> ", "\n")
+        partFiltered = re.sub(pattern, extract_title, partFiltered[0])
+        partFiltered = partFiltered.replace("  ", " ").replace("<br /> ", "\n")
+        partFiltered = re.sub(r"<[^>]+>", "", partFiltered)
+        partFiltered = re.sub(r"/overwatch/[^/]* /overwatch/(\S+)", r"\1", partFiltered)
         partsFiltered.append(partFiltered)
 
-    print(partsFiltered[21])
+    for part in partsFiltered:
+        print(part)
+        print()
 
 if __name__ == "__main__":
     parseBans()
